@@ -1,0 +1,17 @@
+<Context>
+
+	<Realm
+		className="org.apache.catalina.realm.JDBCRealm"
+		debug="99"
+		digest="cleartext"
+		driverName="com.mysql.cj.jdbc.Driver"
+		connectionURL="jdbc:mysql://localhost/struts2-demo?useSSL=FALSE&amp;serverTimezone=JST&amp;"
+		connectionName="struts2-demo"
+		connectionPassword="struts2-demo"
+		userTable="users"
+		userRoleTable="v_user_roles"
+		userNameCol="username"
+		userCredCol="password"
+		roleNameCol="rolename" />
+
+</Context>

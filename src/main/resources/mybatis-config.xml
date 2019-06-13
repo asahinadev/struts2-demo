@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting
+			name="mapUnderscoreToCamelCase"
+			value="true" />
+	</settings>
+
+	<environments default="default">
+		<environment id="default">
+
+			<transactionManager type="JDBC" />
+
+			<dataSource type="POOLED">
+
+				<property
+					name="driver"
+					value="com.mysql.cj.jdbc.Driver" />
+
+				<property
+					name="url"
+					value="jdbc:mysql://localhost/struts2-demo?useSSL=FALSE&amp;serverTimezone=JST&amp;" />
+
+				<property
+					name="username"
+					value="struts2-demo" />
+
+				<property
+					name="password"
+					value="struts2-demo" />
+
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<package name="com.example.struts2.example.mapper" />
+	</mappers>
+
+</configuration>
