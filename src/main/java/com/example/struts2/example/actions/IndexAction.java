@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.example.struts2.example.entity.Users;
@@ -15,11 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import lombok.Getter;
 import lombok.Setter;
 
-@Namespace("")
 @SuppressWarnings("serial")
-//@Results({
-//		@Result(name = Action.SUCCESS, location = "${redirectName}", type = "redirectAction")
-//})
 public class IndexAction
 		extends ActionSupport
 		implements ServletRequestAware {
