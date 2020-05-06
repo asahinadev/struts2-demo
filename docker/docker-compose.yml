@@ -1,0 +1,26 @@
+version: "3"
+
+# サービス設定
+services:
+
+    # mysql(mariadb)
+    db:
+        image: mysql:8
+        volumes:
+        - /var/lib/mysql
+        ports:
+        - 42771:3306
+        - 42772:33060
+        environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=struts2-demo
+        - MYSQL_USER=struts2-demo
+        - MYSQL_PASSWORD=struts2-demo
+
+    # httpd+tomcat
+    web:
+        image: tomcat:9.0.34-jdk14-openjdk-oracle
+        ports:
+        - 42770:8080
+        links:
+        - db
