@@ -5,12 +5,13 @@ services:
 
     # mysql(mariadb)
     db:
+        container_name: struts2_example_db      
         image: mysql:8
         volumes:
         - /var/lib/mysql
         ports:
-        - 42771:3306
-        - 42772:33060
+        - 40010:3306
+        - 40011:33060
         environment:
         - MYSQL_ROOT_PASSWORD=root
         - MYSQL_DATABASE=struts2-demo
@@ -19,8 +20,11 @@ services:
 
     # httpd+tomcat
     web:
+        container_name: struts2_example_web      
         image: tomcat:9.0.34-jdk14-openjdk-oracle
         ports:
-        - 42770:8080
+        - 40000:8080
+        - 40001:8009
+        - 40002:8005
         links:
         - db

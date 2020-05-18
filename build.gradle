@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	id 'eclipse'
+	id "com.thinkimi.gradle.MybatisGenerator" version "2.2"
 }
 
 group = 'com.example.struts2'
@@ -11,6 +12,7 @@ targetCompatibility = 11
 
 configurations {
 	developmentOnly
+	mybatisGenerator
 	runtimeClasspath {
 		extendsFrom developmentOnly
 	}
@@ -81,9 +83,11 @@ dependencies {
 	
 // lomboc
 	compileOnly group: 'org.apache.tomcat', name: 'tomcat-catalina', version: '9.0.35'
-	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
 	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
 
+// mybatisGenerator
+	mybatisGenerator group: 'org.mybatis.generator', name: 'mybatis-generator-core', version: '1.4.0'
+	mybatisGenerator group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
 }
 
 eclipse.project {
@@ -95,4 +99,9 @@ eclipseJdt.doLast {
     File f = file('.settings/org.eclipse.core.resources.prefs')
     f.write('eclipse.preferences.version=1\n')
     f.append('encoding/<project>=UTF-8')
+}
+
+mybatisGenerator {
+    verbose = true
+    configFile = file('mybatis-config/generator.xml')
 }
