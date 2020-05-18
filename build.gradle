@@ -1,6 +1,7 @@
 plugins {
-	id 'java'
+	id 'war'
 	id 'eclipse'
+	id 'eclipse-wtp'
 	id "com.thinkimi.gradle.MybatisGenerator" version "2.2"
 }
 
@@ -125,4 +126,8 @@ task dockerReStart(type:Exec) {
 	description 'docker-compose restart'
 	workingDir 'docker'
 	commandLine 'cmd', '/k', 'docker-compose', 'restart'
+}
+
+war {
+	archiveName "struts2-example.war"
 }
