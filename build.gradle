@@ -105,3 +105,24 @@ mybatisGenerator {
     verbose = true
     configFile = file('mybatis-config/generator.xml')
 }
+
+task dockerRun(type:Exec) {
+	group 'docker'
+	description 'docker-compose up'
+	workingDir 'docker'
+	commandLine 'cmd', '/k', 'docker-compose', 'up', '-d', '--build'
+}
+
+task dockerStop(type:Exec) {
+	group 'docker'
+	description 'docker-compose down'
+	workingDir 'docker'
+	commandLine 'cmd', '/k', 'docker-compose', 'down'
+}
+
+task dockerReStart(type:Exec) {
+	group 'docker'
+	description 'docker-compose restart'
+	workingDir 'docker'
+	commandLine 'cmd', '/k', 'docker-compose', 'restart'
+}
