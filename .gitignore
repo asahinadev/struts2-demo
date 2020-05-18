@@ -1,6 +1,6 @@
-.project
 .classpath
 /target
 /.settings
 /.factorypath
 /bin
+/.gradle

@@ -4,18 +4,35 @@
 	<Appenders>
 		<Console
 			name="STDOUT"
-			target="SYSTEM_OUT"
-		>
-			<PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n" />
+			target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n" />
 		</Console>
 	</Appenders>
 
 	<Loggers>
 
+		<!-- ibatis INFO -->
+		<Logger
+			name="org.apache.ibatis"
+			level="INFO"></Logger>
+
+		<!-- commons-logging OFF -->
+		<Logger
+			name="org.apache.commons.logging"
+			level="OFF" />
+
+		<!-- テンプレートエンジン OFF -->
+		<Logger
+			name="freemarker"
+			level="OFF" />
+
+		<!-- Struts2 Framework INFO -->
 		<Logger
 			name="com.opensymphony.xwork2"
 			level="INFO" />
 
+		<!-- Struts2 Framework INFO -->
 		<Logger
 			name="org.apache.struts2"
 			level="INFO" />

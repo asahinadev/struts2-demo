@@ -1,0 +1,98 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+}
+
+group = 'com.example.struts2'
+version = '0.0.1'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+// struts2
+	implementation group: 'org.apache.struts', name: 'struts2-convention-plugin', version: '2.5.22'
+	implementation group: 'org.apache.struts', name: 'struts2-config-browser-plugin', version: '2.5.22'
+	implementation group: 'org.apache.struts', name: 'struts2-core', version: '2.5.22'
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+
+// template
+	implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.30'
+	implementation group: 'org.javassist', name: 'javassist', version: '3.27.0-GA'
+	implementation group: 'ognl', name: 'ognl', version: '3.2.14'
+
+// log4j2 
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-web', version: '2.13.3'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-1.2-api', version: '2.13.3'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-jcl', version: '2.13.3'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.13.3'
+
+// database
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
+	implementation group: 'org.flywaydb', name: 'flyway-core', version: '6.4.2'
+	implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.4'
+
+// asm
+	implementation group: 'org.ow2.asm', name: 'asm-commons', version: '8.0.1'
+	implementation group: 'org.ow2.asm', name: 'asm-tree', version: '8.0.1'
+	implementation group: 'org.ow2.asm', name: 'asm-analysis', version: '8.0.1'
+
+// junit
+	testImplementation group: 'junit', name: 'junit', version: '4.13'
+	testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
+	
+// lomboc
+	compileOnly group: 'org.apache.tomcat', name: 'tomcat-catalina', version: '9.0.35'
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+
+}
+
+eclipse.project {
+	natures 'org.eclipse.jdt.core.javanature'
+    natures 'org.springsource.ide.eclipse.gradle.core.nature'
+}
+
+eclipseJdt.doLast {
+    File f = file('.settings/org.eclipse.core.resources.prefs')
+    f.write('eclipse.preferences.version=1\n')
+    f.append('encoding/<project>=UTF-8')
+}
