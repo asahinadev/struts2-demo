@@ -21,6 +21,6 @@
 		username="struts2-demo"
 		password="struts2-demo"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:42771/struts2-demo" />
+		url="jdbc:mysql://db/struts2-demo?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=JST&amp;SslMode=DISABLED&amp;" />
 
 </Context>

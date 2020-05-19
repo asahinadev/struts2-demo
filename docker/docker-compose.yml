@@ -3,28 +3,25 @@ version: "3"
 # サービス設定
 services:
 
-    # mysql(mariadb)
+    # mysql
     db:
-        container_name: struts2_example_db      
         image: mysql:8
         volumes:
         - /var/lib/mysql
-        ports:
-        - 40010:3306
-        - 40011:33060
         environment:
         - MYSQL_ROOT_PASSWORD=root
         - MYSQL_DATABASE=struts2-demo
         - MYSQL_USER=struts2-demo
         - MYSQL_PASSWORD=struts2-demo
 
-    # httpd+tomcat
+    # tomcat
     web:
-        container_name: struts2_example_web      
-        image: tomcat:9.0.34-jdk14-openjdk-oracle
+        image: asahinadev/tomcat9:oraclejdk11
+        volumes:
+        - ./context.xml:/usr/local/tomcat/current/conf/context.xml:ro
+        - ./mysql-connector-java-8.0.20.jar:/usr/local/tomcat/current/lib/mysql-connector-java-8.0.20.jar:ro
+        - ../build/libs/struts2-example.war:/usr/local/tomcat/current/webapps/struts2-example.war:ro
         ports:
         - 40000:8080
-        - 40001:8009
-        - 40002:8005
-        links:
+        depends_on:
         - db

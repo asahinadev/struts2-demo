@@ -9,6 +9,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -20,22 +21,19 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
+@WebFilter
 public class MyBatisFilter implements Filter {
 
 	public static final String MYBATIS_SESSION = "MYBATIS_SESSION";
-
-	FilterConfig config;
 
 	SqlSessionFactory factory;
 
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 
-		log.debug("init {}", config.getFilterName());
+		log.debug("init {}", this.getClass());
 
 		ToStringBuilder.setDefaultStyle(ToStringStyle.JSON_STYLE);
-
-		this.config = config;
 
 		try (InputStream in = MyBatisFilter.class.getResourceAsStream("/mybatis-config.xml")) {
 			factory = new SqlSessionFactoryBuilder().build(in);
@@ -46,8 +44,7 @@ public class MyBatisFilter implements Filter {
 
 	@Override
 	public void destroy() {
-
-		log.debug("destroy {}", config.getFilterName());
+		log.debug("destroy {}", this.getClass());
 	}
 
 	@Override
@@ -64,10 +61,9 @@ public class MyBatisFilter implements Filter {
 				chain.doFilter(request, response);
 				log.info("TRANSACTION {}", "END");
 				session.commit();
-			} catch (IOException | ServletException | RuntimeException e) {
+			} catch (Throwable e) {
 				log.warn("TRANSACTION {}", "ERROR", e);
 				session.rollback();
-
 				throw e;
 			}
 

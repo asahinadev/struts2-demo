@@ -2,43 +2,48 @@
 <Configuration>
 
 	<Appenders>
-		<Console
-			name="STDOUT"
-			target="SYSTEM_OUT">
-			<PatternLayout
-				pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n" />
+
+		<Properties>
+			<Property name="loglayout">[%d{yyyy-MM-dd HH:mm:ss.SSS}], %-5p, %t, %c, %m%n</Property>
+		</Properties>
+
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="${loglayout}"/>
 		</Console>
+
+		<RollingFile name="rolling" filePattern="${web:rootDir}/application-%d{yyyy-MM-dd}.log">
+
+			<PatternLayout pattern="${loglayout}"/>
+
+			<Policies>
+				<OnStartupTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy/>
+				<TimeBasedTriggeringPolicy interval="24"/>
+			</Policies>
+
+			<DefaultRolloverStrategy max="90"/>
+		</RollingFile>
 	</Appenders>
 
 	<Loggers>
 
 		<!-- ibatis INFO -->
-		<Logger
-			name="org.apache.ibatis"
-			level="INFO"></Logger>
+		<Logger name="org.apache.ibatis" level="INFO"></Logger>
 
 		<!-- commons-logging OFF -->
-		<Logger
-			name="org.apache.commons.logging"
-			level="OFF" />
+		<Logger name="org.apache.commons.logging" level="OFF"/>
 
 		<!-- テンプレートエンジン OFF -->
-		<Logger
-			name="freemarker"
-			level="OFF" />
+		<Logger name="freemarker" level="OFF"/>
 
 		<!-- Struts2 Framework INFO -->
-		<Logger
-			name="com.opensymphony.xwork2"
-			level="INFO" />
+		<Logger name="com.opensymphony.xwork2" level="INFO"/>
 
 		<!-- Struts2 Framework INFO -->
-		<Logger
-			name="org.apache.struts2"
-			level="INFO" />
+		<Logger name="org.apache.struts2" level="INFO"/>
 
 		<Root level="DEBUG">
-			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="STDOUT"/>
 		</Root>
 
 	</Loggers>
