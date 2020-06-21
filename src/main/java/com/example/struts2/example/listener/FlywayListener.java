@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @WebListener
-public class FlywayFilter implements ServletContextListener {
+public class FlywayListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
