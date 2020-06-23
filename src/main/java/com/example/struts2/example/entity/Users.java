@@ -1,15 +1,11 @@
 package com.example.struts2.example.entity;
 
-import java.io.Serializable;
-
-public class Users implements Serializable {
+public class Users {
     private Integer id;
 
     private String username;
 
     private String password;
-
-    private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;

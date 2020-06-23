@@ -1,6 +1,6 @@
 package com.example.struts2.example.entity;
 
-public class Roles {
+public class Genders {
     private Integer id;
 
     private String name;
