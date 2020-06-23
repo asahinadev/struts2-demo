@@ -18,66 +18,66 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 public interface GendersMapper {
-    @SelectProvider(type=GendersSqlProvider.class, method="countByExample")
-    long countByExample(GendersCriteria example);
+	@SelectProvider(type = GendersSqlProvider.class, method = "countByExample")
+	long countByExample(GendersCriteria example);
 
-    @DeleteProvider(type=GendersSqlProvider.class, method="deleteByExample")
-    int deleteByExample(GendersCriteria example);
+	@DeleteProvider(type = GendersSqlProvider.class, method = "deleteByExample")
+	int deleteByExample(GendersCriteria example);
 
-    @Delete({
-        "delete from genders",
-        "where id = #{id,jdbcType=INTEGER}"
-    })
-    int deleteByPrimaryKey(Integer id);
+	@Delete({
+			"delete from genders",
+			"where id = #{id,jdbcType=INTEGER}"
+	})
+	int deleteByPrimaryKey(Integer id);
 
-    @Insert({
-        "insert into genders (id, name)",
-        "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})"
-    })
-    int insert(Genders record);
+	@Insert({
+			"insert into genders (id, name)",
+			"values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})"
+	})
+	int insert(Genders record);
 
-    @InsertProvider(type=GendersSqlProvider.class, method="insertSelective")
-    int insertSelective(Genders record);
+	@InsertProvider(type = GendersSqlProvider.class, method = "insertSelective")
+	int insertSelective(Genders record);
 
-    @SelectProvider(type=GendersSqlProvider.class, method="selectByExample")
-    @Results({
-        @Result(column="g_id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="g_name", property="name", jdbcType=JdbcType.VARCHAR)
-    })
-    List<Genders> selectByExampleWithRowbounds(GendersCriteria example, RowBounds rowBounds);
+	@SelectProvider(type = GendersSqlProvider.class, method = "selectByExample")
+	@Results({
+			@Result(column = "g_id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+			@Result(column = "g_name", property = "name", jdbcType = JdbcType.VARCHAR)
+	})
+	List<Genders> selectByExampleWithRowbounds(GendersCriteria example, RowBounds rowBounds);
 
-    @SelectProvider(type=GendersSqlProvider.class, method="selectByExample")
-    @Results({
-        @Result(column="g_id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="g_name", property="name", jdbcType=JdbcType.VARCHAR)
-    })
-    List<Genders> selectByExample(GendersCriteria example);
+	@SelectProvider(type = GendersSqlProvider.class, method = "selectByExample")
+	@Results({
+			@Result(column = "g_id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+			@Result(column = "g_name", property = "name", jdbcType = JdbcType.VARCHAR)
+	})
+	List<Genders> selectByExample(GendersCriteria example);
 
-    @Select({
-        "select",
-        "g.id as g_id, g.name as g_name",
-        "from genders g",
-        "where g.id = #{id,jdbcType=INTEGER}"
-    })
-    @Results({
-        @Result(column="g_id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="g_name", property="name", jdbcType=JdbcType.VARCHAR)
-    })
-    Genders selectByPrimaryKey(Integer id);
+	@Select({
+			"select",
+			"g.id as g_id, g.name as g_name",
+			"from genders g",
+			"where g.id = #{id,jdbcType=INTEGER}"
+	})
+	@Results({
+			@Result(column = "g_id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+			@Result(column = "g_name", property = "name", jdbcType = JdbcType.VARCHAR)
+	})
+	Genders selectByPrimaryKey(Integer id);
 
-    @UpdateProvider(type=GendersSqlProvider.class, method="updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") Genders record, @Param("example") GendersCriteria example);
+	@UpdateProvider(type = GendersSqlProvider.class, method = "updateByExampleSelective")
+	int updateByExampleSelective(@Param("record") Genders record, @Param("example") GendersCriteria example);
 
-    @UpdateProvider(type=GendersSqlProvider.class, method="updateByExample")
-    int updateByExample(@Param("record") Genders record, @Param("example") GendersCriteria example);
+	@UpdateProvider(type = GendersSqlProvider.class, method = "updateByExample")
+	int updateByExample(@Param("record") Genders record, @Param("example") GendersCriteria example);
 
-    @UpdateProvider(type=GendersSqlProvider.class, method="updateByPrimaryKeySelective")
-    int updateByPrimaryKeySelective(Genders record);
+	@UpdateProvider(type = GendersSqlProvider.class, method = "updateByPrimaryKeySelective")
+	int updateByPrimaryKeySelective(Genders record);
 
-    @Update({
-        "update genders",
-        "set name = #{name,jdbcType=VARCHAR}",
-        "where id = #{id,jdbcType=INTEGER}"
-    })
-    int updateByPrimaryKey(Genders record);
+	@Update({
+			"update genders",
+			"set name = #{name,jdbcType=VARCHAR}",
+			"where id = #{id,jdbcType=INTEGER}"
+	})
+	int updateByPrimaryKey(Genders record);
 }
