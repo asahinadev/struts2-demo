@@ -1,3 +1,0 @@
-<mapper namespace="com.example.struts2.example.domain.Users">
-	<select id="findAll" resultType="map"> select * from users</select>
-</mapper>

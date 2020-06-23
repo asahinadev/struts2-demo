@@ -2,7 +2,6 @@ plugins {
 	id 'war'
 	id 'eclipse'
 	id 'eclipse-wtp'
-	id "com.thinkimi.gradle.MybatisGenerator" version "2.2"
 }
 
 group = 'com.example.struts2'
@@ -66,7 +65,8 @@ dependencies {
 // database
 	implementation group: 'org.flywaydb', name: 'flyway-core', version: '6.4.2'
 	implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.4'
-	runtime group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
+	implementation group: 'tk.mybatis', name: 'mapper', version: '4.1.5'
+	compileOnly    group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
 
 // asm
 	implementation group: 'org.ow2.asm', name: 'asm-commons', version: '8.0.1'
@@ -97,34 +97,76 @@ eclipseJdt.doLast {
     f.append('encoding/<project>=UTF-8')
 }
 
-mybatisGenerator {
-    verbose = true
-    configFile = file('mybatis-config/generator.xml')
-}
+def targetProject = file "src/main/java"
 
-task dockerUp(	type:Exec ) {
-	group 'docker'
-	description 'docker-compose up -d --build'
-	workingDir 'docker'
+task mybatisGenerator {
+	group = 'mybatis'
 	
-	commandLine( 
-			'docker-compose', 'up'
-		,	'-d'
-		,	'--build'
-	) 
+	doLast {
+
+		def properties = new Properties()
+		file('mybatis-config/config.properties').withInputStream { inputStream ->
+			properties.load(inputStream)
+		}
+		properties.setProperty('target.project', targetProject .getAbsolutePath())
+		
+		ant.properties['targetProject'] = properties.getProperty('target.project')
+		ant.properties['driverClass']   = properties.getProperty('database.driver')
+	    ant.properties['connectionURL'] = properties.getProperty('database.url')
+	    ant.properties['userId']        = properties.getProperty('database.username')
+	    ant.properties['password']      = properties.getProperty('database.password')
+	    ant.properties['entity']        = properties.getProperty('package.entity')
+	    ant.properties['mapper']        = properties.getProperty('package.mapper')
+	    ant.taskdef(
+	    	name: 'mbgenerator', 
+	    	classname: 'org.mybatis.generator.ant.GeneratorAntTask', 
+	    	classpath: configurations.mybatisGenerator.asPath
+    	)
+
+		println  ant.properties['targetProject']
+		println  ant.properties['driverClass']   
+		println  ant.properties['connectionURL'] 
+		println  ant.properties['userId']        
+		println  ant.properties['password']      
+		println  ant.properties['entity']        
+		println  ant.properties['mapper']        
+		println  "" 
+		println  "" 
+		println  "" 
+    	
+	    ant.mbgenerator(
+	    	overwrite: true, 
+	    	configfile: file('mybatis-config/generator.xml'), 
+	    	verbose: true
+    	) {
+			propertyset {
+				propertyref(name: 'targetProject')
+				propertyref(name: 'driverClass')
+				propertyref(name: 'connectionURL')
+				propertyref(name: 'userId')
+				propertyref(name: 'password')
+				propertyref(name: 'entity')
+				propertyref(name: 'mapper')
+			}
+		}
+	}
 }
 
-task dockerDown(
-	type:Exec
-) {
+task dockerUp( type:Exec, dependsOn: [ clean, war ] ) {
 	group 'docker'
-	description 'docker-compose down'
+	description 'docker-compose up'
 	workingDir 'docker'
+	environment COMPOSE_PROJECT_NAME: "struts2_demo"
+	environment TOMCAT_HOME: "/usr/local/tomcat/current"
+	commandLine 'docker-compose', 'up',	'-d', '--build'
+}
 
-	commandLine(
-			'docker-compose', 'down'
-		,	'--rmi', 'all'
-	) 
+task dockerDown( type:Exec ) {
+	group 'docker'
+	description 'docker-compose stop'
+	workingDir 'docker'
+	environment COMPOSE_PROJECT_NAME: "struts2_demo"
+	commandLine 'docker-compose', 'down', '--rmi', 'local'
 }
 
 war {

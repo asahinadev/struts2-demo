@@ -2,7 +2,7 @@ package com.example.struts2.example.entity;
 
 import java.io.Serializable;
 
-public class Users extends AppEntity implements Serializable {
+public class Users implements Serializable {
     private Integer id;
 
     private String username;

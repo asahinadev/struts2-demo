@@ -1,27 +1,32 @@
-version: "3"
-
-# サービス設定
+version: '3'
 services:
-
-    # mysql
-    db:
-        image: mysql:8
-        volumes:
-        - /var/lib/mysql
-        environment:
-        - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=struts2-demo
-        - MYSQL_USER=struts2-demo
-        - MYSQL_PASSWORD=struts2-demo
-
-    # tomcat
-    web:
-        image: asahinadev/tomcat9:oraclejdk11
-        volumes:
-        - ./context.xml:/usr/local/tomcat/current/conf/context.xml:ro
-        - ./mysql-connector-java-8.0.20.jar:/usr/local/tomcat/current/lib/mysql-connector-java-8.0.20.jar:ro
-        - ../build/libs/struts2-example.war:/usr/local/tomcat/current/webapps/struts2-example.war:ro
-        ports:
-        - 40000:8080
-        depends_on:
-        - db
+  db:
+    hostname: db
+    image: mysql:8
+    volumes:
+    - /var/lib/mysql
+    ports:
+    - 40010:3306
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=struts2-example
+    - MYSQL_USER=struts2-example
+    - MYSQL_PASSWORD=struts2-example
+  web:
+    hostname: web
+    image: asahinadev/tomcat9:oraclejdk11
+    volumes:
+    - ./conf/Catalina/localhost:${TOMCAT_HOME}/conf/Catalina/localhost
+    - ./mysql-connector-java-8.0.20.jar:${TOMCAT_HOME}/lib/mysql-connector-java-8.0.20.jar
+    - ../build/libs/struts2-example.war:${TOMCAT_HOME}/webapps/struts2-example.war
+    ports:
+    - 40000:8080
+    depends_on:
+    - db
+  adminer:
+    hostname: adminer
+    image: adminer:4.7.5
+    ports:
+    - 40001:8080
+    depends_on:
+    - db

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+	<Resource
+		name="jdbc/struts2-example"
+		auth="Container"
+		type="javax.sql.DataSource"
+		maxTotal="100"
+		maxIdle="30"
+		maxWaitMillis="10000"
+		username="struts2-example"
+		password="struts2-example"
+		driverClassName="com.mysql.cj.jdbc.Driver"
+		url="jdbc:mysql://db/struts2-example?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=JST&amp;SslMode=DISABLED&amp;" />
+
+<!-- 
+	<Realm
+		className="org.apache.catalina.realm.DataSourceRealm"
+		digest="cleartext"
+		userTable="users"
+		userNameCol="username"
+		userCredCol="password"
+		userRoleTable="v_user_roles"
+		roleNameCol="rolename"
+		localDataSource="true"
+		dataSourceName="jdbc/struts2-example"
+	/>
+ -->
+	
+</Context>

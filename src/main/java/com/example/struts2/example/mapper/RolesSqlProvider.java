@@ -1,57 +1,52 @@
 package com.example.struts2.example.mapper;
 
-import com.example.struts2.example.entity.Users;
-import com.example.struts2.example.entity.UsersCriteria.Criteria;
-import com.example.struts2.example.entity.UsersCriteria.Criterion;
-import com.example.struts2.example.entity.UsersCriteria;
+import com.example.struts2.example.entity.Roles;
+import com.example.struts2.example.entity.RolesCriteria.Criteria;
+import com.example.struts2.example.entity.RolesCriteria.Criterion;
+import com.example.struts2.example.entity.RolesCriteria;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class UsersSqlProvider {
-    public String countByExample(UsersCriteria example) {
+public class RolesSqlProvider {
+    public String countByExample(RolesCriteria example) {
         SQL sql = new SQL();
-        sql.SELECT("count(*)").FROM("users u");
+        sql.SELECT("count(*)").FROM("roles r");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(UsersCriteria example) {
+    public String deleteByExample(RolesCriteria example) {
         SQL sql = new SQL();
-        sql.DELETE_FROM("users u");
+        sql.DELETE_FROM("roles r");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(Users record) {
+    public String insertSelective(Roles record) {
         SQL sql = new SQL();
-        sql.INSERT_INTO("users");
+        sql.INSERT_INTO("roles");
         
         if (record.getId() != null) {
             sql.VALUES("id", "#{id,jdbcType=INTEGER}");
         }
         
-        if (record.getUsername() != null) {
-            sql.VALUES("username", "#{username,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getPassword() != null) {
-            sql.VALUES("password", "#{password,jdbcType=VARCHAR}");
+        if (record.getName() != null) {
+            sql.VALUES("name", "#{name,jdbcType=VARCHAR}");
         }
         
         return sql.toString();
     }
 
-    public String selectByExample(UsersCriteria example) {
+    public String selectByExample(RolesCriteria example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
-            sql.SELECT_DISTINCT("u.id as u_id");
+            sql.SELECT_DISTINCT("r.id as r_id");
         } else {
-            sql.SELECT("u.id as u_id");
+            sql.SELECT("r.id as r_id");
         }
-        sql.SELECT("u.username as u_username");
-        sql.SELECT("u.password as u_password");
-        sql.FROM("users u");
+        sql.SELECT("r.name as r_name");
+        sql.FROM("roles r");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -62,22 +57,18 @@ public class UsersSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        Users record = (Users) parameter.get("record");
-        UsersCriteria example = (UsersCriteria) parameter.get("example");
+        Roles record = (Roles) parameter.get("record");
+        RolesCriteria example = (RolesCriteria) parameter.get("example");
         
         SQL sql = new SQL();
-        sql.UPDATE("users u");
+        sql.UPDATE("roles r");
         
         if (record.getId() != null) {
-            sql.SET("u.id = #{record.id,jdbcType=INTEGER}");
+            sql.SET("r.id = #{record.id,jdbcType=INTEGER}");
         }
         
-        if (record.getUsername() != null) {
-            sql.SET("u.username = #{record.username,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getPassword() != null) {
-            sql.SET("u.password = #{record.password,jdbcType=VARCHAR}");
+        if (record.getName() != null) {
+            sql.SET("r.name = #{record.name,jdbcType=VARCHAR}");
         }
         
         applyWhere(sql, example, true);
@@ -86,27 +77,22 @@ public class UsersSqlProvider {
 
     public String updateByExample(Map<String, Object> parameter) {
         SQL sql = new SQL();
-        sql.UPDATE("users u");
+        sql.UPDATE("roles r");
         
-        sql.SET("u.id = #{record.id,jdbcType=INTEGER}");
-        sql.SET("u.username = #{record.username,jdbcType=VARCHAR}");
-        sql.SET("u.password = #{record.password,jdbcType=VARCHAR}");
+        sql.SET("r.id = #{record.id,jdbcType=INTEGER}");
+        sql.SET("r.name = #{record.name,jdbcType=VARCHAR}");
         
-        UsersCriteria example = (UsersCriteria) parameter.get("example");
+        RolesCriteria example = (RolesCriteria) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(Users record) {
+    public String updateByPrimaryKeySelective(Roles record) {
         SQL sql = new SQL();
-        sql.UPDATE("users");
+        sql.UPDATE("roles");
         
-        if (record.getUsername() != null) {
-            sql.SET("username = #{username,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getPassword() != null) {
-            sql.SET("password = #{password,jdbcType=VARCHAR}");
+        if (record.getName() != null) {
+            sql.SET("name = #{name,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
@@ -114,7 +100,7 @@ public class UsersSqlProvider {
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, UsersCriteria example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, RolesCriteria example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

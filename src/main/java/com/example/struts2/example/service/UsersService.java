@@ -2,95 +2,172 @@ package com.example.struts2.example.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.example.struts2.example.entity.Users;
 import com.example.struts2.example.entity.UsersCriteria;
-import com.example.struts2.example.filter.MyBatisFilter;
 import com.example.struts2.example.mapper.UsersMapper;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class UsersService {
 
-	SqlSession session;
+	final SqlSession session;
 
-	UsersMapper mapper;
+	final UsersMapper mapper;
 
-	public UsersService(HttpServletRequest request) {
-
-		session = (SqlSession) request.getAttribute(MyBatisFilter.MYBATIS_SESSION);
-		mapper = session.getMapper(UsersMapper.class);
-
+	public UsersService(SqlSession session, UsersMapper mapper) {
+		this.session = session;
+		this.mapper = mapper;
 	}
 
+	/**
+	 * インサート処理。
+	 * 
+	 * @param user data
+	 * @return 処理結果
+	 */
 	public int insert(Users user) {
+		log.debug("insert");
+		return mapper.insert(user);
+	}
 
+	/**
+	 * インサート処理（NULL以外）。
+	 * 
+	 * @param user data
+	 * @return 処理結果
+	 */
+	public int insertSelective(Users user) {
+		log.debug("insert");
 		return mapper.insertSelective(user);
 	}
 
+	/**
+	 * 更新処理。
+	 * 
+	 * @param user data
+	 * @return 処理結果
+	 */
 	public int update(Users user) {
-
-		return update(user, false);
-	}
-
-	public int update(Users user, boolean excludeNull) {
-
-		if (excludeNull) {
-			return mapper.updateByExampleSelective(user, byId(user.getId()));
-		}
-
+		log.debug("update");
 		return mapper.updateByExample(user, byId(user.getId()));
 	}
 
-	public int delete(Users user) {
+	/**
+	 * 更新処理（NULL以外）。
+	 * 
+	 * @param user data
+	 * @return 処理結果
+	 */
+	public int updateSelective(Users user) {
+		log.debug("update");
+		return mapper.updateByExampleSelective(user, byId(user.getId()));
+	}
 
+	/**
+	 * 作御処理。
+	 * 
+	 * @param user data
+	 * @return 処理結果
+	 */
+	public int delete(Users user) {
+		log.debug("delete");
 		return mapper.deleteByExample(byId(user.getId()));
 	}
 
-	public long count() {
-
-		return count(all());
+	/**
+	 * 作御処理。
+	 * 
+	 * @param id user.id
+	 * @return 処理結果
+	 */
+	public int delete(Integer id) {
+		log.debug("delete");
+		return mapper.deleteByExample(byId(id));
 	}
 
-	public long count(UsersCriteria criteria) {
+	/**
+	 * カウント。
+	 * 
+	 * @return 件数。
+	 */
+	public long count() {
+		log.debug("count");
+		return mapper.countByExample(all());
+	}
 
+	/**
+	 * カウント。
+	 * 
+	 * @param criteria 検索条件
+	 * @return 件数。
+	 */
+	public long count(UsersCriteria criteria) {
+		log.debug("count");
 		return mapper.countByExample(criteria);
 	}
 
+	/**
+	 * 検索。
+	 * 
+	 * @return 検索結果。
+	 */
 	public List<Users> findAll() {
-
-		return findAll(all());
+		log.debug("findAll");
+		return mapper.selectByExample(all());
 	}
 
+	/**
+	 * 検索。
+	 * 
+	 * @param criteria 検索条件
+	 * @return 検索結果。
+	 */
 	public List<Users> findAll(UsersCriteria criteria) {
-
+		log.debug("findAll");
 		return mapper.selectByExample(criteria);
 	}
 
+	/**
+	 * 検索。
+	 * 
+	 * @param offset 開始位置
+	 * @param limit  件数
+	 * @return 検索結果。
+	 */
 	public List<Users> findAll(int offset, int limit) {
-
-		return findAll(all(), offset, limit);
+		log.debug("findAll");
+		return mapper.selectByExampleWithRowbounds(all(), new RowBounds(offset, limit));
 	}
 
+	/**
+	 * 検索。
+	 * 
+	 * @param criteria 検索条件
+	 * @param offset   開始位置
+	 * @param limit    件数
+	 * @return 検索結果。
+	 */
 	public List<Users> findAll(UsersCriteria criteria, int offset, int limit) {
-
+		log.debug("findAll");
 		return mapper.selectByExampleWithRowbounds(criteria, new RowBounds(offset, limit));
 	}
 
-	public long countByUsername(String username) {
-
-		return mapper.countByExample(byUsername(username));
+	public boolean existsByUsername(String username) {
+		log.debug("exists username {}", username);
+		return mapper.countByExample(byUsername(username)) == 1;
 
 	}
 
-	public List<Users> findByUsername(String username) {
-
-		return mapper.selectByExample(byUsername(username));
+	public Users findByUsername(String username) {
+		log.debug("find username {}", username);
+		return mapper.selectByExample(byUsername(username)).get(0);
 	}
 
-	public UsersCriteria all() {
+	UsersCriteria all() {
 
 		UsersCriteria criteria = new UsersCriteria();
 		criteria.createCriteria().andIdIsNotNull();
@@ -98,7 +175,7 @@ public class UsersService {
 
 	}
 
-	public UsersCriteria byId(Integer id) {
+	UsersCriteria byId(Integer id) {
 
 		UsersCriteria criteria = new UsersCriteria();
 		criteria.createCriteria().andIdEqualTo(id);
@@ -106,7 +183,7 @@ public class UsersService {
 
 	}
 
-	public UsersCriteria byUsername(String username) {
+	UsersCriteria byUsername(String username) {
 
 		UsersCriteria criteria = new UsersCriteria();
 		criteria.createCriteria().andUsernameEqualTo(username);

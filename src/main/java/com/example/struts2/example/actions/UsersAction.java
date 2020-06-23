@@ -2,63 +2,52 @@ package com.example.struts2.example.actions;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.ibatis.session.SqlSession;
 import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.example.struts2.example.entity.Users;
-import com.example.struts2.example.service.UsersService;
+import com.example.struts2.example.interceptor.MyBatisUserAware;
 import com.opensymphony.xwork2.ActionSupport;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
-@Slf4j
-@SuppressWarnings("serial")
+@Log4j2
 @Action()
+@SuppressWarnings("serial")
 public class UsersAction
 		extends ActionSupport
-		implements ServletRequestAware {
-
-	@Setter
-	protected HttpServletRequest servletRequest;
+		implements MyBatisUserAware {
 
 	@Getter
 	protected List<Users> users;
 
-	UsersService service;
+	@Setter
+	@Getter
+	protected SqlSession sqlSession;
 
 	public String execute() {
+		log.debug("execute");
+		users = usersService().findAll();
+		return SUCCESS;
+	}
 
-		log.debug("{} {}", this.getClass(), "execute");
-
-		service = new UsersService(servletRequest);
-		users = service.findAll();
-
+	@Action("add")
+	public String add() {
+		log.debug("add");
 		return SUCCESS;
 	}
 
 	@Action("edit")
 	public String edit() {
-
-		log.debug("{} {}", this.getClass(), "edit");
-
-		service = new UsersService(servletRequest);
-		users = service.findAll();
-
+		log.debug("edit");
 		return SUCCESS;
 	}
 
 	@Action("delete")
 	public String delete() {
-
-		log.debug("{} {}", this.getClass(), "delete");
-
-		service = new UsersService(servletRequest);
-		users = service.findAll();
-
+		log.debug("delete");
 		return SUCCESS;
 	}
 
