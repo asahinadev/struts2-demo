@@ -3,14 +3,12 @@
 	"http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
 
-	<package name="application" namespace="" extends="convention-default">
+	<package name="com.example.struts2.example.actions" namespace="" extends="convention-default">
 
 		<interceptors>
 
-			<interceptor name="flyway"
-				class="com.example.struts2.example.interceptor.FlywayInterceptor"/>
-			<interceptor name="mybatis"
-				class="com.example.struts2.example.interceptor.MyBatisInterceptor"/>
+			<interceptor name="flyway" class="com.example.struts2.example.interceptor.FlywayInterceptor"/>
+			<interceptor name="mybatis" class="com.example.struts2.example.interceptor.MyBatisInterceptor"/>
 
 			<interceptor-stack name="MyBatisStack">
 				<interceptor-ref name="defaultStack"/>
