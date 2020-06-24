@@ -21,7 +21,9 @@
 <body class="h-100">
 
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-		<a class="navbar-brand" href="#">ログイン</a>
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">ログイン</a>
+		</div>
 	</nav>
 
 	<div class="container mt-5 ">
