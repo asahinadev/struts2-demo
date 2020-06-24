@@ -19,8 +19,8 @@
 </head>
 
 <body class="h-100">
-
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+	
+	<nav class="navbar navbar-dark bg-primary fixed-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">ログイン</a>
 		</div>
@@ -30,24 +30,22 @@
 
 		<div class="alert alert-danger" role="alert">ログインに失敗しました。</div>
 
-		<form method="post" action='<%=response.encodeURL("j_security_check")%>' class="card mx-auto" id="form-card">
-			<fieldset class="card-body py-3 px-5">
+		<form method="post" action='j_security_check' class="card mx-auto" id="form-card">
+			<fieldset class="card-body">
 
-				<div class="form-group form-row">
-					<label class="col-3" for="j_username">アカウント</label>
-					<div class="col">
-						<input type="text" name="j_username" class="form-control" id="j_username">
-					</div>
+				<div class="mb-3">
+					<label class="form-label" for="j_username">アカウント</label>
+					<input type="text"  name="j_username" class="form-control" id="j_username">
 				</div>
 
-				<div class="form-group form-row">
-					<label class="col-3" for="j_password">パスワード</label>
+				<div class="mb-3">
+					<label class="form-label"for="j_password">パスワード</label>
 					<div class="col">
 						<input type="password" name="j_password" class="form-control" id="j_password">
 					</div>
 				</div>
 
-				<div class="form-group">
+				<div class="mb-3">
 					<input type="submit" value="Login" name="submit" class="btn btn-block btn-primary">
 				</div>
 
