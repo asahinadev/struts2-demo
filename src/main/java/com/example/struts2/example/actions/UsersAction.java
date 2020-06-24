@@ -20,8 +20,13 @@ public class UsersAction
 		extends ActionSupport
 		implements MyBatisUserAware {
 
-	@Getter
-	protected List<Users> users;
+	public List<Users> getUsers() {
+		List<Users> users = usersService().findAll();
+		if (log.isDebugEnabled()) {
+			users.forEach(u -> System.out.printf("%5d:%s", u.getId(), u.getUsername()).println());
+		}
+		return users;
+	}
 
 	@Setter
 	@Getter
@@ -29,25 +34,6 @@ public class UsersAction
 
 	public String execute() {
 		log.debug("execute");
-		users = usersService().findAll();
-		return SUCCESS;
-	}
-
-	@Action("add")
-	public String add() {
-		log.debug("add");
-		return SUCCESS;
-	}
-
-	@Action("edit")
-	public String edit() {
-		log.debug("edit");
-		return SUCCESS;
-	}
-
-	@Action("delete")
-	public String delete() {
-		log.debug("delete");
 		return SUCCESS;
 	}
 
