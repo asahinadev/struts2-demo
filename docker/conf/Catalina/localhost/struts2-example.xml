@@ -11,10 +11,11 @@
 		username="struts2-example"
 		password="struts2-example"
 		driverClassName="com.mysql.cj.jdbc.Driver"
-		url="jdbc:mysql://db/struts2-example?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=JST&amp;SslMode=DISABLED&amp;" />
+		url="jdbc:mysql://db/struts2-example?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=JST&amp;SslMode=DISABLED&amp;" 
+	/>
 
-<!-- 
 	<Realm
+		debug="99"
 		className="org.apache.catalina.realm.DataSourceRealm"
 		digest="cleartext"
 		userTable="users"
@@ -25,6 +26,5 @@
 		localDataSource="true"
 		dataSourceName="jdbc/struts2-example"
 	/>
- -->
 	
 </Context>

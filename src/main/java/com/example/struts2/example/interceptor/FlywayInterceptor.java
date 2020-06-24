@@ -9,7 +9,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 
@@ -22,7 +21,7 @@ import lombok.extern.log4j.Log4j2;
 @SuppressWarnings("serial")
 public class FlywayInterceptor implements Interceptor {
 
-	SqlSessionFactory factory;
+	int count = 0;
 
 	@Override
 	public void destroy() {
@@ -59,8 +58,30 @@ public class FlywayInterceptor implements Interceptor {
 			flyway = configuration.load();
 			flyway.migrate();
 
-		} catch (SQLException | NamingException e) {
-			log.warn(e.getMessage(), e);
+		} catch (NamingException e) {
+			log.fatal(e.getMessage(), e);
+			throw new IllegalStateException(e.getMessage(), e);
+		} catch (SQLException e) {
+
+			count++;
+
+			if (count == 5) {
+				log.fatal(e.getMessage(), e);
+				throw new IllegalStateException(e.getMessage(), e);
+			}
+
+			log.debug("parent");
+			log.debug(e.getMessage());
+			log.debug("wait 5 sec");
+
+			try {
+				Thread.sleep(5000L);
+			} catch (InterruptedException e1) {
+				log.debug(e.getMessage(), e);
+			}
+
+			log.debug("restart...");
+			init();
 		}
 	}
 
